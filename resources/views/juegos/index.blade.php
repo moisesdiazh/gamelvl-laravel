@@ -8,6 +8,7 @@
 @section('content')
     <h2 class="text-center mb-5">Administra tus juegos</h2>
 
+
     <div class="col-md-10 mx-auto bg-white p-3">
 
         <table class="table">
@@ -24,15 +25,26 @@
             </thead>
 
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>BAMBOO RUSH</td>
-                    <td>https://latamwin-gp3.discreetgaming.com/cwguestlogin.do?bankId=3006&gameId=806&lang=es</td>
-                    <td>Juego mmorpg</td>
-                    <td>https://winchiletragamonedas.com/public/images/games/bamboo_rush.jpeg</td>
-                    <td>Disponible</td>
-                    <td></td>
-                </tr>
+                @foreach ($juegos as $juego)                   
+                    <tr>
+                        <td>{{ $juego->id }}</td>
+                        <td>{{ $juego->titulo }}</td>
+                        <td>{{ $juego->url }}</td>
+                        <td>{!! $juego->descripcion !!}</td>
+                        <td><img src="/storage/{{ $juego->imagen }}" class="w-100"></td>
+                        <td>{{ $juego->estatus }}</td>
+                        <td>
+                            <a href="{{ route('juegos.edit', ['game' => $juego->id ]) }}" class="btn btn-dark d-block mb-2">Editar</a>
+                            <form action="{{ route('juegos.destroy', ['game' => $juego->id ]) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <input type="submit" class="btn btn-danger d-block" value="Eliminar &times;">
+                            </form>
+
+                        </td>
+                    </tr>
+                @endforeach 
+
             </tbody>
         </table>
     </div>

@@ -29,7 +29,11 @@ class GameController extends Controller
     public function index()
     {
         //
-        return view('juegos.index');
+        // Auth::user()->juegos->dd();
+
+        $juegos = auth()->user()->juegos;
+
+        return view('juegos.index')->with('juegos', $juegos);
     }
 
     /**
@@ -71,7 +75,16 @@ class GameController extends Controller
         $img = Image::make(public_path("storage/{$ruta_imagenes}"))->fit(1000, 550);
         $img->save(); //guardamos
 
-        DB::table('games')->insert([
+        // DB::table('games')->insert([
+        //     'titulo' => $data['titulo'],
+        //     'url' => $data['url'],
+        //     'descripcion' => $data['descripcion'],
+        //     'imagen' => $ruta_imagenes,
+        //     'estatus' => $data['estatus'],
+        //     'user_id' => Auth::user()->id,
+        // ]);
+
+        auth()->user()->juegos()->create([
             'titulo' => $data['titulo'],
             'url' => $data['url'],
             'descripcion' => $data['descripcion'],
@@ -90,9 +103,10 @@ class GameController extends Controller
      * @param  \App\Game  $game
      * @return \Illuminate\Http\Response
      */
-    public function show(Game $game)
+    public function show()
     {
-        //
+        
+
     }
 
     /**
@@ -104,6 +118,11 @@ class GameController extends Controller
     public function edit(Game $game)
     {
         //
+        
+
+        $juegos = Game::all(['id', 'titulo']);
+        
+         return view('juegos.edit', compact('juegos', 'game'));
     }
 
     /**
@@ -115,7 +134,33 @@ class GameController extends Controller
      */
     public function update(Request $request, Game $game)
     {
-        //
+        //validación en el formulario
+        $data = request()->validate([
+            'titulo' => 'required|min:2',
+            'url' => 'required|min:10',
+            'descripcion' => 'required|min:10',
+            'estatus' => 'required',
+        ]);
+
+        //asignamos los valores
+        $game->titulo = $data['titulo'];
+        $game->url = $data['url'];
+        $game->descripcion = $data['descripcion'];
+        $game->estatus = $data['estatus'];
+
+        //solo si el usuario sube una nueva imagen
+        if(request('imagen')){
+            $ruta_imagenes = $request['imagen']->store('upload-games', 'public');
+
+            //hacemos el resize de las imagenes
+            $img = Image::make(public_path("storage/{$ruta_imagenes}"))->fit(1000, 550);
+            $img->save();
+
+            $game->imagen = $ruta_imagenes;
+        }
+
+        $game->save();
+        return redirect()->action('GameController@index');
     }
 
     /**
@@ -126,6 +171,8 @@ class GameController extends Controller
      */
     public function destroy(Game $game)
     {
-        //
+        $game->delete();
+
+        return redirect()->action('GameController@index');
     }
 }
