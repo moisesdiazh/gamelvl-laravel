@@ -2,7 +2,8 @@
 
 @section('botones')
 
-    <a class="btn btn-primary mr-2 text-white" href="{{ route('juegos.create') }}">Añadir Juego</a>
+    <a class="btn btn-primary mr-2  text-white" href="{{ route('inicio.index') }}">Home</a>
+    <a class="btn btn-primary mr-2  text-white" href="{{ route('juegos.create') }}">Añadir Juego</a>
 @endsection
 
 @section('content')
@@ -29,7 +30,7 @@
                     <tr>
                         <td>{{ $juego->id }}</td>
                         <td>{{ $juego->titulo }}</td>
-                        <td>{{ $juego->url }}</td>
+                        <td><a href="{{ $juego->url }}" target="_blank">{{ $juego->url }}</a></td>
                         <td>{!! $juego->descripcion !!}</td>
                         <td><img src="/storage/{{ $juego->imagen }}" class="w-100"></td>
                         <td>{{ $juego->estatus }}</td>
