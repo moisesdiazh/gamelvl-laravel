@@ -4887,7 +4887,7 @@ input[type=button].btn-block {
 }
 
 .navbar-light .navbar-brand {
-  color: rgba(0, 0, 0, 0.9);
+  color: rgb(33, 37, 41);
 }
 
 .navbar-light .navbar-brand:hover,

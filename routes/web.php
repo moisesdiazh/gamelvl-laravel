@@ -12,10 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'InicioController@index')->name('inicio.index');
 
 Route::get('/games', 'GameController@index')->name('juegos.index');
 Route::get('/games/create', 'GameController@create')->name('juegos.create');
