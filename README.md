@@ -13,6 +13,8 @@ Dejo las variables de entorno, el public/storage con las imagenes.
 
 php artisan migrate para migrar las bd en mySql, utilice Wamp Server.
 
+Deben crearse una cuenta, loguearse para poder añadir juegos. Si quieren añadir juegos sin loguearse les va a redirigir al login.
+
 Rutas: Se encuentran en el web.php de la carpeta de routes
 
 CSS: Se encuentra en el public en la carpeta de css
